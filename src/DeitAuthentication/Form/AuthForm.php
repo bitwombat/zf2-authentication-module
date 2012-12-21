@@ -15,7 +15,7 @@ class AuthForm extends Form {
 		$this->setAttribute('method', 'post');
 
 		$this->add(array(
-			'name' => 'username',
+			'name' => 'identity',
 			'attributes' => array(
 				'type'  => 'text',
 				'placeholder' => 'Username',
@@ -33,7 +33,7 @@ class AuthForm extends Form {
 		));
 
 		$this->add(array(
-			'name' => 'password',
+			'name' => 'credential',
 			'attributes' => array(
 				'type'  => 'password',
 				'placeholder' => 'Password',

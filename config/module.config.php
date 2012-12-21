@@ -2,6 +2,18 @@
 
 return array(
 
+	'service_manager' => array(
+		'factories' => array(
+
+			'Zend\Authentication\AuthenticationService' => function($sm) {
+				$authService = new \Zend\Authentication\AuthenticationService();
+				$authService->setAdapter($sm->get('AuthAdapter'));
+				return $authService;
+			},
+
+		),
+	),
+
 	'router' => array(
 		'routes' => array(
 
