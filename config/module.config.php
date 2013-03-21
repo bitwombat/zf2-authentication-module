@@ -17,24 +17,24 @@ return array(
 	'router' => array(
 		'routes' => array(
 
-			'authenticate' => array(
+			'log-in' => array(
 				'type' => 'Zend\Mvc\Router\Http\Literal',
 				'options' => array(
 					'route'    => '/log-in',
 					'defaults' => array(
 						'controller' => 'DeitAuthentication\Controller\Auth',
-						'action'     => 'authenticate',
+						'action'     => 'log-in',
 					),
 				),
 			),
 
-			'unauthenticate' => array(
+			'log-out' => array(
 				'type' => 'Zend\Mvc\Router\Http\Literal',
 				'options' => array(
 					'route'    => '/log-out',
 					'defaults' => array(
 						'controller' => 'DeitAuthentication\Controller\Auth',
-						'action'     => 'unauthenticate',
+						'action'     => 'log-out',
 					),
 				),
 			),
@@ -50,7 +50,7 @@ return array(
 
 	'view_manager' => array(
 		'template_map' => array(
-			'deit-authentication/auth/authenticate' => __DIR__ . '/../view/deit-authentication/auth/authenticate.phtml',
+			'deit-authentication/auth/log-in' => __DIR__ . '/../view/deit-authentication/auth/log-in.phtml',
 		),
 	),
 

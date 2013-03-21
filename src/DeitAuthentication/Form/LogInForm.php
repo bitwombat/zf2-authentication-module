@@ -7,8 +7,11 @@ use \Zend\Form\Form;
  * Authentication form
  * @author James Newell <james@digitaledgeit.com.au>
  */
-class AuthForm extends Form {
+class LogInForm extends Form {
 
+	/**
+	 * Constructs the form
+	 */
 	public function __construct() {
 		parent::__construct('authenticate');
 		
