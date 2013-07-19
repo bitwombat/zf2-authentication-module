@@ -27,7 +27,7 @@ class AuthController extends AbstractActionController {
 		
 		//check if the user is already logged in
 		if ($authService->hasIdentity()) {
-			return $this->redirect()->toRoute('app'); //TODO: use preference
+			return $this->redirect()->toRoute('home'); //TODO: use preference
 		}
 
 		//check if the user has submitted the form
@@ -46,7 +46,22 @@ class AuthController extends AbstractActionController {
 				
 				//check whether the authentication succeeded
 				if ($authResult->isValid()) {
-					return $this->redirect()->toRoute('app'); //TODO: use preference
+
+					//check for a return URL
+					$returnUrl = $this->params()->fromQuery('return');
+
+					if ($returnUrl) {
+
+						//check the URL isn't going off to another site
+						if ($returnUrl[0] == '/') {
+							return $this->redirect()->toUrl($returnUrl);
+						}
+
+					}
+
+					//return to the default page
+					return $this->redirect()->toRoute('home'); //TODO: use preference
+
 				} else {
 					$error = 'An invalid username or password was supplied';
 				}				
