@@ -1,0 +1,11 @@
+{
+	"name":         "deit/zf2-authentication-module",
+	"description":  "Digital Edge IT authentication module for Zend Framework v2",
+	"homepage":     "http://www.digitaledgeit.com.au/",
+	"authors": [
+		{
+			"name":     "James Newell",
+			"email":    "james@digitaledgeit.com.au"
+		}
+	]
+}
