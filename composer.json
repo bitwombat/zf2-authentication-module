@@ -7,5 +7,10 @@
 			"name":     "James Newell",
 			"email":    "james@digitaledgeit.com.au"
 		}
-	]
+	],
+	"autoload": {
+		"psr-0": {
+			"DeitAuthentication\\": "src/"
+		}
+	},
 }
