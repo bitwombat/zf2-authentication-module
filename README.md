@@ -14,11 +14,11 @@ To hook up the module to your user base, add a service to the service manager:
 				$options = new \DoctrineModule\Options\Authentication();
 				$options
 					->setObjectManager('doctrine.documentmanager.odm_default')
-					->setObjectRepository($sm->get('doctrine.entitymanager.orm_default')->getRepository('Api\Entity\User'))
-					->setIdentityClass('Api\Entity\User')
+					->setObjectRepository($sm->get('doctrine.entitymanager.orm_default')->getRepository('MyNamespace\Entity\User'))
+					->setIdentityClass('MyNamespace\Entity\User')
 					->setIdentityProperty('username')
 					->setCredentialProperty('password')
-					//->setCredentialCallable('Api\Entity\User::hashPassword')
+					//->setCredentialCallable('MyNamespace\Entity\User::setPassword')
 				;
 
 				$adapter = new \DoctrineModule\Authentication\Adapter\ObjectRepository($options);
@@ -29,4 +29,4 @@ To hook up the module to your user base, add a service to the service manager:
 	),
 </code>
 
-To restrict access to your controllers to certain users, look at the DeitAccessControl module.
+To restrict access to your controllers to certain users, look at the DeitAuthorisation module.

@@ -8,7 +8,7 @@ use \Zend\View\Helper\AbstractHelper;
  * Auth identity helper
  * @author James Newell <james@digitaledgeit.com.au>
  */
-class AuthIdentity extends AbstractHelper{
+class AuthIdentity extends AbstractHelper {
 
 	/**
 	 * Returns the auth service
