@@ -1,13 +1,14 @@
 <?php
 
 namespace DeitAuthentication\Form;
-use \Zend\Form\Form;
+use Zend\Form\Form;
+use Zend\Http\Request;
 
 /**
- * Authentication form
+ * Auth form
  * @author James Newell <james@digitaledgeit.com.au>
  */
-class LogInForm extends Form {
+class LogIn extends Form {
 
 	/**
 	 * Constructs the form
@@ -61,6 +62,15 @@ class LogInForm extends Form {
 			),
 		));
 		
+	}
+
+	/**
+	 * Gets whether the form has been submitted
+	 * @param   Request $request
+	 * @return  bool
+	 */
+	public function isSubmitted(Request $request) {
+		return $request->isPost();
 	}
 
 }
