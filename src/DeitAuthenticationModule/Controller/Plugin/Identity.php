@@ -1,6 +1,6 @@
 <?php
 
-namespace DeitAuthentication\Controller\Plugin;
+namespace DeitAuthenticationModule\Controller\Plugin;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -17,6 +17,12 @@ class Identity extends \Zend\Mvc\Controller\Plugin\Identity implements ServiceLo
 	private $serviceLocator;
 
 	/**
+	 * The fetched entity
+	 * @var     object|null
+	 */
+	private $entity;
+
+	/**
 	 * @inheritdoc
 	 */
 	public function getServiceLocator() {
@@ -31,7 +37,16 @@ class Identity extends \Zend\Mvc\Controller\Plugin\Identity implements ServiceLo
 		return $this;
 	}
 
+	/**
+	 * Fetches the entity from the database
+	 * @return  object|null
+	 */
 	public function __invoke() {
+
+		//check whether the entity has alrady been fetched
+		if (!is_null($this->entity)) {
+			return $this->entity;
+		}
 
 		//get the identity
 		$identity = parent::__invoke();
@@ -46,13 +61,13 @@ class Identity extends \Zend\Mvc\Controller\Plugin\Identity implements ServiceLo
 		$options    = $sm->get('deit_authentication_options');
 		$callback   = $options->getFetchEntityFromIdentityCallback();
 
-		if ($callback) {
-			$entity = call_user_func_array($callback, array($identity, $sm));
+		if (is_null($callback)) {
+			$this->entity = $identity;
 		} else {
-			$entity = $identity;
+			$this->entity = call_user_func_array($callback, array($identity, $sm));
 		}
 
-		return $entity;
+		return $this->entity;
 	}
 
 }

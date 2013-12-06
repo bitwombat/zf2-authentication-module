@@ -1,6 +1,6 @@
 <?php
 
-namespace DeitAuthentication;
+namespace DeitAuthenticationModule;
 use Zend\Mvc\MvcEvent;
 
 /**

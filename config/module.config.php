@@ -10,7 +10,7 @@ return array(
 				'options' => array(
 					'route'    => '/log-in',
 					'defaults' => array(
-						'controller' => 'DeitAuthentication\Controller\Authentication',
+						'controller' => 'DeitAuthenticationModule\Controller\Authentication',
 						'action'     => 'log-in',
 					),
 				),
@@ -21,7 +21,7 @@ return array(
 				'options' => array(
 					'route'    => '/log-out',
 					'defaults' => array(
-						'controller' => 'DeitAuthentication\Controller\Authentication',
+						'controller' => 'DeitAuthenticationModule\Controller\Authentication',
 						'action'     => 'log-out',
 					),
 				),
@@ -50,15 +50,15 @@ return array(
 			'deit_authentication_options' => function($sm) {
 
 				$config     = $sm->get('Config');
-				$options    = new DeitAuthentication\Options\Options();
+				$options    = new DeitAuthenticationModule\Options\Options();
 
 				if (isset($config['deit_authentication'])) {
 
 					$config = $config['deit_authentication'];
 
-					if (isset($config['map_login_data_to_adapter_callback'])) {
-						$options->setMapLoginDataToAdapterCallback(
-							$config['map_login_data_to_adapter_callback']
+					if (isset($config['map_auth_data_to_adapter_callback'])) {
+						$options->setMapAuthDataToAdapterCallback(
+							$config['map_auth_data_to_adapter_callback']
 						);
 					}
 
@@ -78,7 +78,7 @@ return array(
 			},
 
 			'deit_authentication_form' => function($sm) {
-				$form = new \DeitAuthentication\Form\LogIn();
+				$form = new \DeitAuthenticationModule\Form\Authentication();
 				return $form;
 			},
 
@@ -97,7 +97,7 @@ return array(
 
 	'controllers' => array(
 		'invokables' => array(
-			'DeitAuthentication\Controller\Authentication' => 'DeitAuthentication\Controller\AuthenticationController'
+			'DeitAuthenticationModule\Controller\Authentication' => 'DeitAuthenticationModule\Controller\AuthenticationController'
 		),
 	),
 
@@ -105,7 +105,7 @@ return array(
 		'factories' => array(
 			'identity' => function($sm) {
 				$sm = $sm->getServiceLocator();
-				$plugin = new \DeitAuthentication\Controller\Plugin\Identity();
+				$plugin = new \DeitAuthenticationModule\Controller\Plugin\Identity();
 				$plugin->setAuthenticationService($sm->get('deit_authentication_service'));
 				return $plugin;
 			},
@@ -116,7 +116,7 @@ return array(
 		'factories' => array(
 			'identity' => function($sm) {
 				$sm = $sm->getServiceLocator();
-				$plugin = new \DeitAuthentication\View\Helper\Identity();
+				$plugin = new \DeitAuthenticationModule\View\Helper\Identity();
 				$plugin->setAuthenticationService($sm->get('deit_authentication_service'));
 				return $plugin;
 			},

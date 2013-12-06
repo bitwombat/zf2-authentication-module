@@ -1,8 +1,9 @@
 <?php
 
-namespace DeitAuthentication\Controller;
+namespace DeitAuthenticationModule\Controller;
 use Zend\View\Model\ViewModel;
 use Zend\Mvc\Controller\AbstractActionController;
+use DeitAuthenticationModule\Form\AuthenticationInterface;
 
 /**
  * Authentication controller
@@ -30,7 +31,7 @@ class AuthenticationController extends AbstractActionController {
 
 	/**
 	 * Gets the authentication options
-	 * @return  \DeitAuthentication\Options\Options
+	 * @return  \DeitAuthenticationModule\Options\Options
 	 */
 	public function getAuthenticationOptions() {
 		return $this->getServiceLocator()->get('deit_authentication_options');
@@ -47,9 +48,16 @@ class AuthenticationController extends AbstractActionController {
 	/**
 	 * Gets the authentication form
 	 * @return  \Zend\Form\Form
+	 * @throws
 	 */
 	public function getAuthenticationForm() {
-		return $this->getServiceLocator('FormElementManager')->get('deit_authentication_form');
+		$form = $this->getServiceLocator('FormElementManager')->get('deit_authentication_form');
+
+		if (!$form instanceof AuthenticationInterface) {
+			throw new \InvalidArgumentException('Service "deit_authentication_form" does not implement \DeitAuthenticationModule\Form\AuthenticationInterface.');
+		}
+
+		return $form;
 	}
 
 	/**
@@ -128,7 +136,7 @@ class AuthenticationController extends AbstractActionController {
 
 				$data       = $form->getData();
 				$adapter    = $service->getAdapter();
-				$callback   = $this->getAuthenticationOptions()->getMapLoginDataToAdapterCallback();
+				$callback   = $this->getAuthenticationOptions()->getMapAuthDataToAdapterCallback();
 
 				if (is_callable($callback)) {
 

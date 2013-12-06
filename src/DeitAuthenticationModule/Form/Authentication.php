@@ -1,21 +1,19 @@
 <?php
 
-namespace DeitAuthentication\Form;
-use Zend\Form\Form;
-use Zend\Http\Request;
+namespace DeitAuthenticationModule\Form;
 
 /**
- * Auth form
+ * Authentication form
  * @author James Newell <james@digitaledgeit.com.au>
  */
-class LogIn extends Form {
+class Authentication extends AbstractAuthentication {
 
 	/**
 	 * Constructs the form
 	 */
 	public function __construct() {
 		parent::__construct('authenticate');
-		
+
 		$this->setAttribute('method', 'post');
 
 		$this->add(array(
@@ -52,7 +50,7 @@ class LogIn extends Form {
 				'NotEmpty',
 			),
 		));
-		
+
 		$this->add(array(
 			'name' => 'submit',
 			'attributes' => array(
@@ -61,16 +59,7 @@ class LogIn extends Form {
 				'id' => 'submitbutton',
 			),
 		));
-		
-	}
 
-	/**
-	 * Gets whether the form has been submitted
-	 * @param   Request $request
-	 * @return  bool
-	 */
-	public function isSubmitted(Request $request) {
-		return $request->isPost();
 	}
 
 }

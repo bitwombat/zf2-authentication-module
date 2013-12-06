@@ -1,6 +1,6 @@
 <?php
 
-$p = new \Phar('/Users/james/DeitAuthentication.phar');
+$p = new \Phar('/Users/james/DeitAuthenticationModule.phar');
 $p->startBuffering();
 $p->buildFromDirectory(__DIR__, '/\.(php|phtml)$/');
 $p->compressFiles(Phar::GZ);
