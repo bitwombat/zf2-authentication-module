@@ -191,7 +191,7 @@ class AuthenticationController extends AbstractActionController {
 		//create the view model
 		$vm = new ViewModel();
 		$vm
-			->setTemplate('log-in')
+			->setTemplate('deit-authentication-module/log-in')
 			->setVariable('form', $form)
 		;
 
