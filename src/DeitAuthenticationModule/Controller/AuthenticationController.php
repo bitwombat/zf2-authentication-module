@@ -143,7 +143,7 @@ class AuthenticationController extends AbstractActionController {
 					//delegate mapping to the user
 					call_user_func($callback, $data, $adapter);
 
-				} else if ($adapter instanceof ValidatableAdapterInterface) {
+				} else if ($adapter instanceof ValidatableAdapterInterface || (method_exists($adapter, 'setIdentity') && method_exists($adapter, 'setCredential'))) {
 
 					//map specific fields
 					$adapter->setIdentity($form->get('identity')->getValue());
