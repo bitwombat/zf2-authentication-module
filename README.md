@@ -63,7 +63,7 @@ The default view is very basic and just displays the heading "Log in" and uses t
 
 	'view_manager' => array(
 		'template_map' => array(
-			'deit-authentication-module/log-in' => __DIR__.'/../view/youre-view-path/log-in.phtml',
+			'deit-authentication-module/log-in' => __DIR__.'/../view/your-view-path/log-in.phtml',
 		),
 	),
 
