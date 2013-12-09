@@ -143,11 +143,17 @@ class AuthenticationController extends AbstractActionController {
 					//delegate mapping to the user
 					call_user_func($callback, $data, $adapter);
 
-				} else if ($adapter instanceof ValidatableAdapterInterface || (method_exists($adapter, 'setIdentity') && method_exists($adapter, 'setCredential'))) {
+				} else if ($adapter instanceof ValidatableAdapterInterface) {
 
 					//map specific fields
 					$adapter->setIdentity($form->get('identity')->getValue());
 					$adapter->setCredential($form->get('credential')->getValue());
+
+				} else if (method_exists($adapter, 'setIdentityValue') && method_exists($adapter, 'setCredentialValue')) {
+
+					//map specific fields
+					$adapter->setIdentityValue($form->get('identity')->getValue());
+					$adapter->setCredentialValue($form->get('credential')->getValue());
 
 				} else {
 					throw new \RuntimeException('Not sure how to map data from the log-in form to the authentication adapter.');
