@@ -134,7 +134,7 @@ The authentication controller triggers three events, `log-in::success`, `log-in:
 
             });
 
-            $em->attach('log-in', function($event) {
+            $em->attach('log-out', function($event) {
 
 				/**
 				 * @var mixed $oldIdentity
