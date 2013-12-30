@@ -67,6 +67,8 @@ The default view is very basic and just displays the heading "Log in" and uses t
 		),
 	),
 
+	The view is passed two variables, a `$form` and a feedback `$message`. When an error occurs the `$message` may contain a message similar to "invalid credentials, please try again".
+
 ## Using a custom form ##
 
 Override the `deit_authentication_form` key in the service manager to provide your own form. Forms must implement `\DeitAuthenticationModule\Form\AuthenticationInterface` or extend `\DeitAuthenticationModule\Form\AbstractAuthentication`.
@@ -112,23 +114,13 @@ The authentication controller triggers three events, `log-in::success`, `log-in:
 			$sm = $event->getApplication()->getServiceManager();
 			$em = $sm->get('deit_authentication_events');
 
-			$em->attach('log-in::success', function($event) {
-
-				/**
-				 * @var \Zend\Authentication\Result $result
-				 */
-				$result = $event->getParam('result');
+			$em->attach('log-in::success', function($event /** @var \DeitAuthenticationModule\Event\Authenticate $event */) {
 
 				//handle the event here
 
 			});
 
-			$em->attach('log-in::failure', function($event) {
-
-				/**
-				 * @var \Zend\Authentication\Result $result
-				 */
-				$result = $event->getParam('result');
+			$em->attach('log-in::failure', function($event /** @var \DeitAuthenticationModule\Event\Authenticate $event */) {
 
                 //handle the event here
 

@@ -4,6 +4,7 @@ namespace DeitAuthenticationModule\Controller;
 use Zend\View\Model\ViewModel;
 use Zend\Mvc\Controller\AbstractActionController;
 use DeitAuthenticationModule\Form\AuthenticationInterface;
+use DeitAuthenticationModule\Event\Authenticate as AuthenticateEvent;
 
 /**
  * Authentication controller
@@ -110,6 +111,7 @@ class AuthenticationController extends AbstractActionController {
 	 */
 	public function logInAction() {
 
+		$vm         = new ViewModel();
 		$request    = $this->getRequest();
 		$form       = $this->getAuthenticationForm();
 		$service    = $this->getAuthenticationService();
@@ -159,19 +161,23 @@ class AuthenticationController extends AbstractActionController {
 					throw new \RuntimeException('Not sure how to map data from the log-in form to the authentication adapter.');
 				}
 
-
 				//log the user in
 				$result = $service->authenticate();
+
+				//create the event
+				$authEvent = new AuthenticateEvent();
+				$authEvent
+					->setResult($result)
+				;
 
 				//check the result is valid
 				if ($result->isValid()) {
 
 					//trigger the log-in event
-					$this->getAuthenticationEvents()->trigger(
-						self::EVENT_LOGIN_SUCCESS,
-						null,
-						array('result' => $result)
-					);
+					$authEvent
+						->setName(self::EVENT_LOGIN_SUCCESS)
+					;
+					$this->getAuthenticationEvents()->trigger($authEvent);
 
 					//redirect the user to the return URL
 					return $this->redirectToReturnUrl();
@@ -179,23 +185,22 @@ class AuthenticationController extends AbstractActionController {
 				} else {
 
 					//trigger the login event
-					$this->getAuthenticationEvents()->trigger(
-						self::EVENT_LOGIN_SUCCESS,
-						null,
-						array('result' => $result)
-					);
-
-					//let the user know what went wrong
-					//$error = 'An invalid username or password was supplied'
+					$authEvent
+						->setName(self::EVENT_LOGIN_FAILURE)
+						->setMessage('Unable to authenticate the provided credentials. Please try again.')
+					;
+					$this->getAuthenticationEvents()->trigger($authEvent);
 
 				}
+
+				//let the user know what went wrong
+				$vm->setVariable('message', $authEvent->getMessage());
 
 			}
 
 		}
 
 		//create the view model
-		$vm = new ViewModel();
 		$vm
 			->setTemplate('deit-authentication-module/log-in')
 			->setVariable('form', $form)

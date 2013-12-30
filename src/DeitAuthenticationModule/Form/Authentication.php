@@ -1,65 +1,82 @@
 <?php
 
 namespace DeitAuthenticationModule\Form;
+use Zend\InputFilter\InputProviderInterface;
 
 /**
  * Authentication form
  * @author James Newell <james@digitaledgeit.com.au>
  */
-class Authentication extends AbstractAuthentication {
+class Authentication extends AbstractAuthentication implements InputProviderInterface {
 
 	/**
 	 * Constructs the form
 	 */
 	public function __construct() {
-		parent::__construct('authenticate');
+		parent::__construct('');
 
 		$this->setAttribute('method', 'post');
 
 		$this->add(array(
-			'name' => 'identity',
-			'attributes' => array(
-				'type'  => 'text',
-				'placeholder' => 'Username',
-				'required' => 'required',
-				'autofocus' => 'autofocus',
+			'name'          => 'identity',
+			'options'       => array(
+				'label'         => 'Username',
 			),
-			'options' => array(
-				'label' => 'Username',
-			),
-			'filters' => array(
-			),
-			'validators' => array(
-				'NotEmpty',
+			'attributes'    => array(
+				'type'          => 'text',
+				'placeholder'   => 'Username',
+				'required'      => 'required',
+				'autofocus'         => 'autofocus',
 			),
 		));
 
 		$this->add(array(
-			'name' => 'credential',
-			'attributes' => array(
-				'type'  => 'password',
-				'placeholder' => 'Password',
-				'required' => 'required',
+			'name'          => 'credential',
+			'options'       => array(
+				'label'         => 'Password',
 			),
-			'options' => array(
-				'label' => 'Password',
-			),
-			'filters' => array(
-			),
-			'validators' => array(
-				'NotEmpty',
+			'attributes'    => array(
+				'type'          => 'password',
+				'placeholder'   => 'Password',
+				'required'      => 'required',
 			),
 		));
 
 		$this->add(array(
-			'name' => 'submit',
-			'attributes' => array(
-				'type'  => 'submit',
-				'value' => 'Log-in',
-				'id' => 'submitbutton',
+			'name'          => 'submit',
+			'attributes'    => array(
+				'type'          => 'submit',
+				'value'         => 'Log in',
 			),
 		));
 
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getInputSpecification() {
+		return array(
+
+			array(
+				'name'          => 'identity',
+				'filters'       => array(
+				),
+				'validators'    => array(
+					'NotEmpty',
+				),
+			),
+
+			array(
+				'name'          => 'password',
+				'filters'       => array(
+				),
+				'validators'    => array(
+					'NotEmpty',
+				),
+			),
+
+		);
 	}
 
 }

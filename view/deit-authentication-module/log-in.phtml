@@ -1,3 +1,7 @@
 <h1>Log-in</h1>
 
+<?php if (!empty($message)) : ?>
+<div class="auth-msg"><?php echo $message; ?></div>
+<?php endif; ?>
+
 <?php echo $this->form($form); ?>
