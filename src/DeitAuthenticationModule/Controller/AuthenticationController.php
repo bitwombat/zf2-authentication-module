@@ -13,24 +13,6 @@ use DeitAuthenticationModule\Event\Authenticate as AuthenticateEvent;
 class AuthenticationController extends AbstractActionController {
 
 	/**
-	 * Fired when a user has successfully logged in
-	 * @param   Result $result
-	 */
-	const EVENT_LOGIN_SUCCESS   = 'log-in::success';
-
-	/**
-	 * Fired when a user has failed to log in
-	 * @param   Result $result
-	 */
-	const EVENT_LOGIN_FAILURE   = 'log-in::failure';
-
-	/**
-	 * Fired when a user successfully logs out
-	 * @param   mixed $identity
-	 */
-	const EVENT_LOGOUT          = 'log-out';
-
-	/**
 	 * Gets the authentication options
 	 * @return  \DeitAuthenticationModule\Options\Options
 	 */
@@ -161,40 +143,45 @@ class AuthenticationController extends AbstractActionController {
 					throw new \RuntimeException('Not sure how to map data from the log-in form to the authentication adapter.');
 				}
 
-				//log the user in
-				$result = $service->authenticate();
+				//authenticate the user
+				$result = $adapter->authenticate();
 
 				//create the event
 				$authEvent = new AuthenticateEvent();
 				$authEvent
+					->setName(AuthenticateEvent::EVENT_LOGIN)
 					->setResult($result)
+					->setMessage($result->isValid() ? '' : 'Authentication failed. Please try again.')
 				;
 
-				//check the result is valid
-				if ($result->isValid()) {
+				//trigger the event
+				$this->getAuthenticationEvents()->trigger($authEvent);
 
-					//trigger the log-in event
-					$authEvent
-						->setName(self::EVENT_LOGIN_SUCCESS)
-					;
-					$this->getAuthenticationEvents()->trigger($authEvent);
+				//get the result
+				$result = $authEvent->getResult();
+
+				//clear the identity
+				if ($service->hasIdentity()) {
+					$service->clearIdentity();
+				}
+
+				//store the identity
+				if ($result->isValid()) {
+					$service->getStorage()->write($result->getIdentity());
+				}
+
+				//check the result is valid
+				if ($authEvent->getResult()->isValid()) {
 
 					//redirect the user to the return URL
 					return $this->redirectToReturnUrl();
 
 				} else {
 
-					//trigger the login event
-					$authEvent
-						->setName(self::EVENT_LOGIN_FAILURE)
-						->setMessage('Unable to authenticate the provided credentials. Please try again.')
-					;
-					$this->getAuthenticationEvents()->trigger($authEvent);
+					//let the user know what went wrong
+					$vm->setVariable('message', $authEvent->getMessage());
 
 				}
-
-				//let the user know what went wrong
-				$vm->setVariable('message', $authEvent->getMessage());
 
 			}
 
@@ -230,7 +217,7 @@ class AuthenticationController extends AbstractActionController {
 
 		//trigger the log-out event
 		$this->getAuthenticationEvents()->trigger(
-			self::EVENT_LOGOUT,
+			AuthenticateEvent::EVENT_LOGOUT,
 			null,
 			array('identity' => $identity)
 		);

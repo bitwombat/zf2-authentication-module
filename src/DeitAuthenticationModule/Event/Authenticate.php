@@ -9,6 +9,18 @@ namespace DeitAuthenticationModule\Event;
 class Authenticate extends \Zend\EventManager\Event {
 
 	/**
+	 * Fired when a user tries to log in
+	 * @param   Result $result
+	 */
+	const EVENT_LOGIN   = 'log-in';
+
+	/**
+	 * Fired when a user successfully logs out
+	 * @param   mixed $identity
+	 */
+	const EVENT_LOGOUT  = 'log-out';
+
+	/**
 	 * The authentication result
 	 * @var     \Zend\Authentication\Result
 	 */

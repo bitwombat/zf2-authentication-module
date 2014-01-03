@@ -38,10 +38,6 @@ return array(
 			'Zend\Authentication\Adapter\AdapterInterface'  => 'deit_authentication_adapter',
 		),
 
-		'invokables' => array(
-			'deit_authentication_storage' => 'Zend\Authentication\Storage\Session',
-		),
-
 		'factories' => array(
 
 			/**
@@ -89,6 +85,11 @@ return array(
 					->setAdapter($sm->get('deit_authentication_adapter'))     //user needs to specify this
 				;
 				return $service;
+			},
+
+			'deit_authentication_storage' => function($sm) {
+				$storage = new \Zend\Authentication\Storage\Session();
+				return $storage;
 			},
 
 		),
