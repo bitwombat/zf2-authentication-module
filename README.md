@@ -114,17 +114,13 @@ The authentication controller triggers three events, `log-in::success`, `log-in:
 			$sm = $event->getApplication()->getServiceManager();
 			$em = $sm->get('deit_authentication_events');
 
-			$em->attach('log-in::success', function($event /** @var \DeitAuthenticationModule\Event\Authenticate $event */) {
+			$em->attach('log-in', function($event /** @var \DeitAuthenticationModule\Event\Authenticate $event */) {
 
-				//handle the event here
+				if ($event->getResult()->isValid()) {
+					//handle the event here
+				}
 
 			});
-
-			$em->attach('log-in::failure', function($event /** @var \DeitAuthenticationModule\Event\Authenticate $event */) {
-
-                //handle the event here
-
-            });
 
             $em->attach('log-out', function($event) {
 
