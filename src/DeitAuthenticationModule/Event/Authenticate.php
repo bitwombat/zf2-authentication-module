@@ -27,12 +27,6 @@ class Authenticate extends \Zend\EventManager\Event {
 	private $result;
 
 	/**
-	 * The authentication feedback message
-	 * @var     string
-	 */
-	private $message;
-
-	/**
 	 * Gets the authentication result
 	 * @return  \Zend\Authentication\Result
 	 */
@@ -47,24 +41,6 @@ class Authenticate extends \Zend\EventManager\Event {
 	 */
 	public function setResult(\Zend\Authentication\Result $result) {
 		$this->result = $result;
-		return $this;
-	}
-
-	/**
-	 * Gets the feedback message
-	 * @return  string
-	 */
-	public function getMessage() {
-		return $this->message;
-	}
-
-	/**
-	 * Sets the authentication result
-	 * @param   string  $message
-	 * @return  $this
-	 */
-	public function setMessage($message) {
-		$this->message = $message;
 		return $this;
 	}
 

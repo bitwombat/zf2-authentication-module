@@ -105,7 +105,7 @@ If your form doesn't provide an identity or credential field you can specify a c
 
 ## Listening for events ##
 
-The authentication controller triggers three events, `log-in::success`, `log-in::failure` and `log-out`. The module provides its own `\Zend\EventManager\EventManager` and can be retrieved from the service manager using the  `deit_authentication_events` key.
+The authentication controller triggers two events, `log-in` and `log-out`. The module provides its own `\Zend\EventManager\EventManager` and can be retrieved from the service manager using the  `deit_authentication_events` key.
 
 	class Module {
 

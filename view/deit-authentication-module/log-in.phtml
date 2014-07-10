@@ -1,7 +1,11 @@
 <h1>Log-in</h1>
 
-<?php if (!empty($message)) : ?>
-<div class="auth-msg"><?php echo $message; ?></div>
+<?php if (!empty($messages)) : ?>
+<div class="messages messages--error">
+	<?php foreach ($messages as $message) : ?>
+		<p class="messages__message"><?php echo $message; ?></p>
+	<?php endforeach; ?>
+</div>
 <?php endif; ?>
 
 <?php echo $this->form($form); ?>

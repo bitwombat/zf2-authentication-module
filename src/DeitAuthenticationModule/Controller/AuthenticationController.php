@@ -151,7 +151,6 @@ class AuthenticationController extends AbstractActionController {
 				$authEvent
 					->setName(AuthenticateEvent::EVENT_LOGIN)
 					->setResult($result)
-					->setMessage($result->isValid() ? '' : 'Authentication failed. Please try again.')
 				;
 
 				//trigger the event
@@ -179,7 +178,7 @@ class AuthenticationController extends AbstractActionController {
 				} else {
 
 					//let the user know what went wrong
-					$vm->setVariable('message', $authEvent->getMessage());
+					$vm->setVariable('messages', $authEvent->getResult()->getMessages());
 
 				}
 
